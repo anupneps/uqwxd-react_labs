@@ -1,32 +1,35 @@
-import { useState } from "react";
-import React from 'react'
+import React from "react";
+import TodoItem from "./TodoItem";
 
-const TodoForm = ({ addTodo }) => {
-    const [todo, setTodo] = useState('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const newTodo = {
-            id: new Date().getTime(),
-            text: todo.trim(),
-            completed: false
-        };
-        if (newTodo.text.length > 3) {
-            addTodo(newTodo);
-            setTodo('');
-        } else{
-            alert("Enter a valid Task !")
-            setTodo('');
-        }
-    }
-
-    return (
-       <form onSubmit={handleSubmit}>
-        <input type='text' value={todo} onChange={(e) => setTodo (e.target.value)} placeholder='Add new Task' />
-        <button type='submit'>Add Task</button>
-        </form>
-    );
+const TodoForm = ({
+  todos,
+  todo,
+  setTodo,
+  handleSubmit,
+  deleteTodo,
+  toggleComplete,
+  editTodo,
+}) => {
+  return (
+    <div id="todo-list">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          onChange={(e) => setTodo(e.target.value)}
+          value={todo}
+        />
+        <button type="submit">Add Todo</button>
+      </form>
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          toggleComplete={toggleComplete}
+          deleteTodo={deleteTodo}
+          editTodo={editTodo}
+        />
+      ))}
+    </div>
+  );
 };
-
-export default TodoForm
+export default TodoForm;

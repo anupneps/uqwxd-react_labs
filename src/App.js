@@ -1,14 +1,41 @@
-import './App.css';
-import React, { useState } from 'react';
-import TodoForm from './components/TodoForm';
-import TodoItem from './components/TodoItem';
+import React, { useState, useEffect } from "react";
 
-function App() {
+import TodoForm from "./components/TodoForm";
+import "./App.css";
+
+const App = () => {
   const [todos, setTodos] = useState([]);
-  const [todoEditing, setTodoEditing] = useState(null);
+  const [todo, setTodo] = useState("");
 
-  const addTodo = (newTodo) => {
-    setTodos([...todos, newTodo]);
+  useEffect(() => {
+    const json = localStorage.getItem("todos");
+    const loadedTodos = JSON.parse(json);
+    if (loadedTodos) {
+      setTodos(loadedTodos);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (todos.length > 0) {
+      const json = JSON.stringify(todos);
+      localStorage.setItem("todos", json);
+    }
+  }, [todos]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newTodo = {
+      id: new Date().getTime(),
+      text: todo.trim(),
+      completed: false,
+    };
+    if (newTodo.text.length > 0) {
+      setTodos([...todos].concat(newTodo));
+      setTodo("");
+    } else {
+      alert("Enter Valid Task");
+      setTodo("");
+    }
   };
 
   const deleteTodo = (id) => {
@@ -19,52 +46,68 @@ function App() {
   const toggleComplete = (id) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        return { ...todo, completed: !todo.completed };
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
       }
       return todo;
     });
     setTodos(updatedTodos);
   };
 
-  const startEditing = (id, updatedTodo) => {
+  const editTodo = (id, newText) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        return updatedTodo;
+        return {
+          ...todo,
+          text: newText,
+        };
       }
       return todo;
     });
     setTodos(updatedTodos);
-    setTodoEditing(id)
   };
-
-  const submitEdits = (id, updatedText) => {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, text: updatedText };
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-    setTodoEditing(null);
-  };
+  const completedItem = todos.filter((todo) => todo.completed);
 
   return (
-    <div id="todo-list">
-      <h1>Todo List</h1>
-      <TodoForm addTodo={addTodo} />
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          toggleComplete={toggleComplete}
-          deleteTodo={deleteTodo}
-          startEditing={startEditing}
-          todoEditing={todoEditing}
-          submitEdits={submitEdits}
-        />
-      ))}
-    </div>
+    <>
+      <div className="app-header">
+        <h1>Groceries-List</h1>
+
+      </div>
+      <div className="App">
+
+        <div className="active-Items">
+          <p>You have </p>
+          <h2 className="active-number"> {todos.filter((todo) => !todo.completed).length} </h2>
+          <p>Active Items</p>
+        </div>
+
+        <div className="todo-Items">
+
+          <TodoForm
+            todos={todos}
+            todo={todo}
+            setTodo={setTodo}
+            handleSubmit={handleSubmit}
+            deleteTodo={deleteTodo}
+            toggleComplete={toggleComplete}
+            editTodo={editTodo}
+          />
+        </div>
+        <div className="completed-Items">
+          <h2>Recently Completed Items</h2>
+          <ul>
+            {completedItem.length > 0 && completedItem
+              .map((todo) => (
+                <li key={todo.id}>{todo.text}</li>
+              ))}
+          </ul>
+        </div>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
