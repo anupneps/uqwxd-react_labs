@@ -77,7 +77,6 @@ const App = () => {
 
       </div>
       <div className="App">
-
         <div className="active-Items">
           <p>You have </p>
           <h2 className="active-number"> {todos.filter((todo) => !todo.completed).length} </h2>
@@ -85,7 +84,6 @@ const App = () => {
         </div>
 
         <div className="todo-Items">
-
           <TodoForm
             todos={todos}
             todo={todo}
@@ -96,6 +94,7 @@ const App = () => {
             editTodo={editTodo}
           />
         </div>
+
         <div className="completed-Items">
           <h2>Recently Completed Items</h2>
           <ul>
@@ -103,6 +102,7 @@ const App = () => {
               .map((todo) => (
                 <li key={todo.id}>{todo.text}</li>
               ))}
+
           </ul>
         </div>
       </div>

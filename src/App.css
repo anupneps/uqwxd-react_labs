@@ -10,7 +10,7 @@ body {
   flex-direction: column;
   justify-content: center;
   padding: 40px;
-  width: 100%;
+  width: fit-content;
   height:100%;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
   background-image: url("https://cdn.pixabay.com/photo/2014/04/02/10/53/shopping-cart-304843_1280.png");
@@ -136,7 +136,7 @@ input[type="text"] {
   padding: 8px;
   font-size: 18px;
   line-break: 1.5rem;
-  border: none;
+  border: 2px black solid;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -239,20 +239,36 @@ body::before {
   .App {
     flex-direction: column;
     align-items: center;
+    width:fit-content;
+    background-color: black;
+    background-image: none;
+    width: 400px;
   }
 
   .active-Items {
     align-self: center;
     margin-right: 0;
-    width: 50vw;
+    justify-content: center;
+    
   }
 
   .completed-Items {
     margin: 20px 0;
+    width: 400px;
   }
 
   .app-header {
-    height: auto;
-    background-size: cover;
+    height: max-content;
+    width:400px;
+    background-size: contain;
+    
+  }
+
+  .app-header>h1 {
+    font-size: 1.5em;
+  }
+
+  #todo-list {
+    width: 300px;
   }
 }
