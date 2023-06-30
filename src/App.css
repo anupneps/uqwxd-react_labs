@@ -5,8 +5,9 @@ body {
 
 .App {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  /* flex-direction: row;
+  align-items: flex-start; */
+  flex-direction: column;
   justify-content: center;
   padding: 40px;
   width: 100%;
@@ -34,7 +35,9 @@ body {
 
 .todo-Items {
   display: flex;
-  width: 800px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: auto;
   justify-items: center;
 }
 
@@ -42,19 +45,15 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-self: flex-start;
+  align-self: center;
   text-align: center;
   border-radius: 100%;
   background-color: #ff7f00;
   width: 100px;
   height: 100px;
   margin: 20px;
-  margin-right: 50px;
   padding: 20px;
   color: white;
-  top: 10%;
-  left: 45%;
-  right: 45%;
 }
 
 .active-Items>* {
@@ -69,7 +68,7 @@ body {
 
 }
 
-.completed-Items {
+/* .completed-Items {
   display: flex;
   justify-items: center;
   flex-direction: column;
@@ -80,7 +79,21 @@ body {
   height: 50vh;
   margin-left: 0;
 
+} */
+
+.completed-Items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  padding: 20px;
+  border: 2px solid black;
+  background-color: white;
+  height: auto;
+  max-height: 50vh;
 }
+
 
 .completed-Items>h2 {
   margin-top: 0;
@@ -113,11 +126,13 @@ h1 {
 
 form {
   display: flex;
-  margin: 40px 0px 40px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 40px 0;
 }
 
 input[type="text"] {
-  flex-grow: 1;
+  flex-basis: 100%;
   padding: 8px;
   font-size: 18px;
   line-break: 1.5rem;
@@ -146,6 +161,7 @@ button:hover {
 
 .todo {
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
   padding: 10px;
@@ -170,7 +186,6 @@ input[type="checkbox"] {
 }
 
 .todo-actions {
-  margin-left: 10px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -214,18 +229,30 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-
-  @media screen and (max-width: 768px) {
-    .App {
-      padding: 10px;
-    }
-
-    input[type="text"] {
-      font-size: 14px;
-    }
-  }
-
   background-image: linear-gradient(to top left, #ecebe6, #D7DDE8);
   z-index: -1;
   animation: bgAnimation 10s ease infinite;
+}
+
+@media screen and (max-width: 768px) {
+  /* Responsive styles for mobile devices */
+  .App {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .active-Items {
+    align-self: center;
+    margin-right: 0;
+    width: 50vw;
+  }
+
+  .completed-Items {
+    margin: 20px 0;
+  }
+
+  .app-header {
+    height: auto;
+    background-size: cover;
+  }
 }
